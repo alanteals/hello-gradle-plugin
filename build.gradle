@@ -33,14 +33,20 @@ dependencies {
 
 apply plugin: MyPlugin
 
+myplugin.message = 'Hello from MyPlugin written in Groovy!'
+
 class MyPlugin implements Plugin<Project> {
     // Gradle instantiates the plugin and calls the plugin instance's Plugin.apply(T) method when the plugin is used with a project
     void apply(Project project) {
+        // Add the 'myplugin' extension object
+        project.extensions.create("myplugin", MyPluginExtension)
         // Add a task that uses the configuration
         project.task('hello') {
             doLast {
-                println 'Hello from MyPlugin written in Groovy!'
-            }
+                println project.myplugin.message            }
         }
     }
+}
+class MyPluginExtension {
+    String message = "Hello from the default value"
 }
